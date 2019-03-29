@@ -16,5 +16,8 @@
   },
   "peacock.affectStatusBar": true,
   "peacock.affectActivityBar": true,
-  "peacock.affectTitleBar": true
+  "peacock.affectTitleBar": true,
+  "peacock.favoriteColors": [
+    { "name": "Angular", "value": "#c30b2f" }
+  ]
 }
