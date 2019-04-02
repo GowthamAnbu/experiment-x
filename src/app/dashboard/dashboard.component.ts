@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
       debounceTime(600),
       distinctUntilChanged(),
       switchMap(term => this.userUtilityService.searchEntries(term)
+        // * ERROR ISOLATION PART to prevent the outer streams from completion since errors always complete the stream !
         .pipe(
           tap(() => this.isLoading = true),
            // TODO R&D
