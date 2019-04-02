@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { UserUtilitiesService } from '../user-utilities.service';
-import { tap, takeUntil } from 'rxjs/operators';
+import { takeUntil, finalize, catchError } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -13,6 +13,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   autoCompleteControl$ = new FormControl();
   options: string[] = [];
   destroyAllSubscription = new Subject();
+  isLoading = false;
+  errorMessage: string;
 
   constructor(private userUtilityService: UserUtilitiesService) {
   }
@@ -20,15 +22,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userUtilityService.getUserNames(this.autoCompleteControl$.valueChanges)
       .pipe(
-        takeUntil(this.destroyAllSubscription)
+        takeUntil(this.destroyAllSubscription),
+        catchError(e => this.errorMessage = e),
+        finalize(() => {
+          this.options = [];
+          this.isLoading = false;
+        }),
       )
-      .subscribe(result => {
+      .subscribe((result: string[]) => {
         this.options = result;
       });
   }
 
   ngOnDestroy(): void {
     this.destroyAllSubscription.next(true);
+    this.destroyAllSubscription.complete();
   }
 
 }
