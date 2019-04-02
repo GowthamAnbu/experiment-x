@@ -1,23 +1,23 @@
 {
   "workbench.colorCustomizations": {
     "editorIndentGuide.activeBackground": "#FFEBEE",
-    "activityBar.background": "#c30b2f",
+    "activityBar.background": "#9c27b0",
     "activityBar.foreground": "#f4f5f7",
     "activityBar.inactiveForeground": "#fbfdff99",
     "activityBarBadge.background": "#3a8fe1",
     "activityBarBadge.foreground": "#e7e7e7",
-    "titleBar.activeBackground": "#c30b2f",
-    "titleBar.inactiveBackground": "#c30b2f",
+    "titleBar.activeBackground": "#9c27b0",
+    "titleBar.inactiveBackground": "#9c27b0",
     "titleBar.activeForeground": "#f8fafc",
     "titleBar.inactiveForeground": "#f4f5f7",
-    "statusBar.background": "#c30b2f",
-    "statusBarItem.hoverBackground": "#c30b2f",
+    "statusBar.background": "#9c27b0",
+    "statusBarItem.hoverBackground": "#9c27b0",
     "statusBar.foreground": "#e6e8eb"
   },
   "peacock.affectStatusBar": true,
   "peacock.affectActivityBar": true,
   "peacock.affectTitleBar": true,
   "peacock.favoriteColors": [
-    { "name": "Angular", "value": "#c30b2f" }
+    { "name": "Angular", "value": "#9c27b0" }
   ]
 }

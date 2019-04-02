@@ -1,6 +1,12 @@
-<div class="autocomplete-center">
-  <mat-form-field appearance="outline">
-      <mat-label>Search users</mat-label>
-    <input type="text" matInput [formControl]="autoCompleteControl$">
-  </mat-form-field>
+<div class="container">
+  <div class="columns is-centered">
+    <mat-form-field appearance="outline" class="column">
+        <mat-label>Search</mat-label>
+      <input type="text" matInput [formControl]="autoCompleteControl$" [matAutocomplete]="auto">
+    </mat-form-field>
+  </div>
 </div>
+
+<mat-autocomplete #auto="matAutocomplete">
+  <mat-option *ngFor="let option of options" [value]="option">{{option}}</mat-option>
+</mat-autocomplete>
