@@ -9,7 +9,7 @@ export class UserUtilitiesService {
 
   constructor() { }
 
-  getUserNames(terms: Observable<string>) {
+  getUserNames(terms: Observable<string>): Observable<string[]> {
     return terms.pipe(
       debounceTime(400),
       distinctUntilChanged(),
@@ -17,7 +17,12 @@ export class UserUtilitiesService {
     );
   }
 
-  searchEntries(term: string) {
+  searchEntries(term: string): Observable<string[]> {
     return term === '' ? of([]) : of([term, 'What goes around comes around', 'I\'mpossible']);
+  }
+
+  getNames(params: any) {
+    const { companyId } = params;
+    return of([companyId, 'Merrick', 'Rick']);
   }
 }
