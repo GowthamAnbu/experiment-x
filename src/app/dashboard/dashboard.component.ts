@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { UserUtilitiesService } from '../user-utilities.service';
-import { takeUntil, finalize, catchError } from 'rxjs/operators';
-import { Subject, Observable, observable } from 'rxjs';
+import { tap, finalize, catchError, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,29 +11,42 @@ import { Subject, Observable, observable } from 'rxjs';
 })
 export class DashboardComponent implements OnInit {
   autoCompleteControl$ = new FormControl();
-  options$: Observable<string[]>;
-  // destroyAllSubscription = new Subject();
+  // destroyAllSubscription$ = new Subject();
   isLoading = false;
   errorMessage: string;
+  options$: Observable<string[]> = this.autoCompleteControl$.valueChanges
+    .pipe(
+      // * takeUntil is not necessary because of async
+      // takeUntil(this.destroyAllSubscription$),
+      tap(() => this.errorMessage = ''),
+      debounceTime(600),
+      distinctUntilChanged(),
+      switchMap(term => this.userUtilityService.searchEntries(term)
+        .pipe(
+           // TODO R&D
+          // ? takeUntil is not necessary since the outer observable is already cleared
+          // takeUntil(this.destroyAllSubscription$),
+          catchError(e => {
+            this.errorMessage = e;
+            return of([]);
+          }),
+          finalize(() => {
+            this.isLoading = false;
+          }),
+        )
+      )
+    ) as Observable<string[]>;
 
   constructor(private userUtilityService: UserUtilitiesService) {
   }
 
   ngOnInit() {
-    this.options$ = this.userUtilityService.getUserNames(this.autoCompleteControl$.valueChanges)
-      .pipe(
-        // takeUntil(this.destroyAllSubscription),
-        catchError(e => this.errorMessage = e),
-        finalize(() => {
-          this.isLoading = false;
-        }),
-      ) as Observable<string[]>;
   }
 
   /* //* removing ngOnDestroy since async handles memory leaks
   ngOnDestroy(): void {
-    this.destroyAllSubscription.next(true);
-    this.destroyAllSubscription.complete();
+    this.destroyAllSubscription$.next(true);
+    this.destroyAllSubscription$.unsubscribe();
   } */
 
 }
