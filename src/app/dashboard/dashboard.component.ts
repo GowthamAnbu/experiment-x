@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
       distinctUntilChanged(),
       switchMap(term => this.userUtilityService.searchEntries(term)
         .pipe(
+          tap(() => this.isLoading = true),
            // TODO R&D
           // ? takeUntil is not necessary since the outer observable is already cleared
           // takeUntil(this.destroyAllSubscription$),
