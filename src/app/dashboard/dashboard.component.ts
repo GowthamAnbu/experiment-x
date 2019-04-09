@@ -21,10 +21,10 @@ export class DashboardComponent implements OnInit {
       tap(() => this.errorMessage = ''),
       debounceTime(600),
       distinctUntilChanged(),
+      tap(() => this.isLoading = true),
       switchMap(term => this.userUtilityService.searchEntries(term)
         // * ERROR ISOLATION PART to prevent the outer streams from completion since errors always complete the stream !
         .pipe(
-          tap(() => this.isLoading = true),
            // TODO R&D
           // ? takeUntil is not necessary since the outer observable is already cleared
           // takeUntil(this.destroyAllSubscription$),

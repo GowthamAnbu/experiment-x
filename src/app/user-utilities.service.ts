@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { from, Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, filter, delay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,8 @@ export class UserUtilitiesService {
   constructor() { }
 
   searchEntries(term: string): Observable<string[]> {
-    return term === '' ? of([]) : of([term, 'What goes around comes around', 'I\'mpossible']);
+    return of(term === '' ? [] : [term, 'What goes around comes around', 'I\'mpossible'])
+      .pipe(delay(2000));
   }
 
   getNames(params: any) {
