@@ -28,13 +28,19 @@ export class DashboardComponent implements OnInit {
            // TODO R&D
           // ? takeUntil is not necessary since the outer observable is already cleared
           // takeUntil(this.destroyAllSubscription$),
+          tap(() => { this.isLoading = false; }),
           catchError(e => {
             this.errorMessage = e;
             return of([]);
           }),
-          finalize(() => {
+          /* // * finalize is called even when the switch map switches the inner observable
+            when the source observable changes in which case the loader value set to true by the change
+            in new source observable will set to false by the switch map (since unsubscribing the inner
+            observable also calls the finalize method)
+            */
+          /* finalize(() => {
             this.isLoading = false;
-          }),
+          }), */
         )
       )
     ) as Observable<string[]>;

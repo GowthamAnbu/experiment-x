@@ -1,4 +1,5 @@
 <div class="container">
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   <div class="columns is-centered">
     <mat-form-field appearance="outline" class="column">
         <mat-label>Search</mat-label>
@@ -11,6 +12,5 @@
   <!-- TODO for the first search term the
       isloading is working but not displaying because of the mat-autocomplete -->
     <!-- ?  R&D have to find a way to solve this -->
-  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   <mat-option *ngFor="let option of options$ | async" [value]="option">{{option}}</mat-option>
 </mat-autocomplete>
