@@ -8,7 +8,7 @@
   </div>
 </div>
 
-<mat-autocomplete #auto="matAutocomplete">
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)= "optionSelected($event)">
   <!-- TODO for the first search term the
       isloading is working but not displaying because of the mat-autocomplete -->
     <!-- ?  R&D have to find a way to solve this -->
