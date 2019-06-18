@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   errorMessage: string;
   @ViewChild('auto') matAutoComplete: MatAutocomplete;
   workAround$ = new BehaviorSubject('');
+  optionSelected$ = new Subject();
   options$: Observable<string[]>  = this.autoCompleteControl$.valueChanges
     .pipe(
       // * takeUntil is not necessary because of async
@@ -51,7 +52,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         )
       )
     ) as Observable<string[]>;
-  optionSelected$ = new Subject();
 
   constructor(private userUtilityService: UserUtilitiesService) {
   }
